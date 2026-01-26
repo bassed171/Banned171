@@ -1,0 +1,242 @@
+const USER = "Banned171"
+const PASS = "1"
+
+const html = `
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+*{font-family:-apple-system}
+body{
+  margin:0;
+  background:#0b0014;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  color:white;
+}
+
+/* LOGIN */
+.login{
+  width:320px;
+  background:linear-gradient(180deg,#7b2cff,#4a148c);
+  border-radius:26px;
+  padding:22px;
+  box-shadow:0 0 40px rgba(140,60,255,.7);
+}
+.logo{text-align:center;font-weight:800;font-size:22px}
+.logo span{font-size:12px;opacity:.8}
+.input{
+  width:100%;
+  padding:13px;
+  border-radius:16px;
+  border:none;
+  margin-top:14px;
+}
+.pass{position:relative}
+.eye{position:absolute;right:14px;top:50%;transform:translateY(-50%)}
+.btn{
+  width:100%;
+  margin-top:18px;
+  padding:14px;
+  border:none;
+  border-radius:18px;
+  background:linear-gradient(90deg,#9b4dff,#7b2cff);
+  color:white;
+  font-weight:700;
+}
+#error{text-align:center;margin-top:10px;color:#ffd1d1}
+
+/* LOADING */
+.load{text-align:center}
+.spin{
+  width:36px;height:36px;
+  border:4px solid #ffffff33;
+  border-top:4px solid #fff;
+  border-radius:50%;
+  animation:spin 1s linear infinite;
+  margin:20px auto;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.hide{display:none}
+
+/* PANEL */
+.panel{
+  width:320px;
+  background:linear-gradient(180deg,#5a189a,#240046);
+  border-radius:22px;
+  padding:18px;
+  box-shadow:0 0 40px rgba(140,60,255,.8);
+}
+.header{text-align:center;font-weight:800;margin-bottom:10px}
+.tabs{display:flex;justify-content:center;margin-bottom:10px}
+.tab{padding:6px 18px;border-radius:20px;background:#3c096c;font-size:13px}
+
+.item{
+  background:#3c096c;
+  border-radius:16px;
+  padding:12px;
+  margin:10px 0;
+  display:flex;
+  justify-content:space-between;
+}
+.item small{opacity:.7;font-size:11px;display:block}
+
+/* SWITCH */
+.switch{
+  width:44px;height:22px;
+  background:#240046;
+  border-radius:20px;
+  position:relative;
+}
+.switch::after{
+  content:"";
+  width:18px;height:18px;
+  background:#9d4edd;
+  border-radius:50%;
+  position:absolute;
+  top:2px;left:2px;
+  transition:.3s;
+}
+.switch.on{background:#c77dff}
+.switch.on::after{left:24px;background:#240046}
+
+/* INJECT */
+.inject{
+  margin-top:14px;
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:18px;
+  background:linear-gradient(90deg,#9d4edd,#7b2cff);
+  font-weight:800;
+  color:white;
+}
+
+/* INJECTION LOADER */
+.injecting{
+  background:#240046;
+  padding:14px;
+  border-radius:18px;
+  margin-top:14px;
+  text-align:center;
+}
+.bar{
+  width:100%;
+  height:6px;
+  background:#3c096c;
+  border-radius:6px;
+  overflow:hidden;
+  margin-top:10px;
+}
+.fill{
+  height:100%;
+  width:0%;
+  background:#c77dff;
+  animation:load 2.5s forwards;
+}
+@keyframes load{to{width:100%}}
+
+/* TOAST */
+#toast{
+  position:fixed;
+  bottom:30px;
+  left:50%;
+  transform:translateX(-50%);
+  background:#c77dff;
+  color:#240046;
+  padding:12px 20px;
+  border-radius:18px;
+  font-weight:800;
+  display:none;
+}
+</style>
+</head>
+
+<body>
+
+<div id="login" class="login">
+  <div class="logo">@BANNED
+  <input id="u" class="input" placeholder="Usuário">
+  <div class="pass">
+    <input id="p" class="input" type="password" placeholder="Senha">
+    <span class="eye" onclick="p.type=p.type=='password'?'text':'password'">👁</span>
+  </div>
+  <button class="btn" onclick="go()">ENTRAR</button>
+  <div id="error"></div>
+</div>
+
+<div id="load" class="login load hide">
+  <div class="spin"></div>
+  <p>Verificando sistema…</p>
+</div>
+
+<div id="panel" class="panel hide">
+  <div class="header">@BANNED</div>
+
+  <div class="tabs"><div class="tab">MENU</div></div>
+
+  <div class="item">
+    <div>AIMLOCK<small>HS 80% / Aimbot 80%</small></div>
+    <div class="switch" onclick="tg(this)"></div>
+  </div>
+
+  <div class="item">
+    <div>AIMFOV<small>Ajuste de campo</small></div>
+    <div class="switch" onclick="tg(this)"></div>
+  </div>
+
+  <div class="item">
+    <div>AUX 2X<small>Velocidade x2</small></div>
+    <div class="switch" onclick="tg(this)"></div>
+  </div>
+
+  <div class="item">
+    <div>AUX NECK<small>HS pescoço</small></div>
+    <div class="switch" onclick="tg(this)"></div>
+  </div>
+
+  <button id="injBtn" class="inject" onclick="inj()">INJETAR VENENO 🍓</button>
+
+  <div id="injecting" class="injecting hide">
+    Injetando funções…
+    <div class="bar"><div class="fill"></div></div>
+  </div>
+</div>
+
+<div id="toast">Funções ativadas com sucesso 😈</div>
+
+<script>
+function go(){
+  if(u.value=="${USER}" && p.value=="${PASS}"){
+    login.classList.add("hide")
+    load.classList.remove("hide")
+    setTimeout(()=>{
+      load.classList.add("hide")
+      panel.classList.remove("hide")
+    },1300)
+  } else error.innerText="Usuário ou senha inválidos"
+}
+function tg(e){e.classList.toggle("on")}
+function inj(){
+  injBtn.classList.add("hide")
+  injecting.classList.remove("hide")
+  setTimeout(()=>{
+    injecting.classList.add("hide")
+    injBtn.classList.remove("hide")
+    toast.style.display="block"
+    setTimeout(()=>toast.style.display="none",2200)
+  },2600)
+}
+</script>
+
+</body>
+</html>
+`
+
+const wv = new WebView()
+await wv.loadHTML(html)
+await wv.present(true)
+Script.complete()
