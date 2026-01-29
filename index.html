@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>@BANNED</title>
 
 <style>
@@ -16,6 +16,7 @@ body{
   align-items:center;
   color:white;
 }
+
 .panel{
   width:320px;
   background:linear-gradient(180deg,#5a189a,#240046);
@@ -112,29 +113,29 @@ body{
   <div class="tabs"><div class="tab">MENU</div></div>
 
   <div class="item">
-    <div>AIMLOCK<small>HS 80% / Aimbot 80%</small></div>
+    <div>AUXÍLIO DE MIRA<small>Sensi melhorada</small></div>
     <div class="switch" onclick="tg(this)"></div>
   </div>
 
   <div class="item">
-    <div>AIMFOV<small>Ajuste de campo</small></div>
+    <div>AUXÍLIO 90%<small>Controle avançado</small></div>
     <div class="switch" onclick="tg(this)"></div>
   </div>
 
   <div class="item">
-    <div>AUX 2X<small>Velocidade x2</small></div>
+    <div>SENSI X2<small>Resposta mais rápida</small></div>
     <div class="switch" onclick="tg(this)"></div>
   </div>
 
   <div class="item">
-    <div>AUX NECK<small>HS pescoço</small></div>
+    <div>SENSI PRECISA<small>Estabilidade melhorada</small></div>
     <div class="switch" onclick="tg(this)"></div>
   </div>
 
   <button id="injBtn" class="inject" onclick="inj()">INJETAR VENENO 🍓</button>
 
   <div id="injecting" class="injecting">
-    Injetando funções…
+    Aplicando ajustes…
     <div class="bar"><div class="fill"></div></div>
   </div>
 </div>
@@ -142,10 +143,14 @@ body{
 <div id="toast">Funções ativadas com sucesso 😈</div>
 
 <script>
-function tg(e){ e.classList.toggle("on") }
+function tg(e){
+  e.classList.toggle("on")
+}
+
 function inj(){
   injBtn.style.display="none"
   injecting.style.display="block"
+
   setTimeout(()=>{
     injecting.style.display="none"
     injBtn.style.display="block"
