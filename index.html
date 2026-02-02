@@ -1,106 +1,129 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>@BANNED</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BANNED 171</title>
 
 <style>
-*{font-family:-apple-system}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
 body{
-  margin:0;
-  background:#0b0014;
-  height:100vh;
+  min-height:100vh;
+  background:black;
   display:flex;
   justify-content:center;
   align-items:center;
   color:white;
 }
 
+/* painel */
 .panel{
-  width:320px;
-  background:linear-gradient(180deg,#5a189a,#240046);
-  border-radius:22px;
-  padding:18px;
-  box-shadow:0 0 40px rgba(140,60,255,.8);
+  width:330px;
+  background:#0b0014;
+  border-radius:24px;
+  padding:20px;
+  box-shadow:0 0 40px rgba(255,0,255,.5);
 }
-.header{text-align:center;font-weight:800;margin-bottom:10px}
-.tabs{display:flex;justify-content:center;margin-bottom:10px}
-.tab{padding:6px 18px;border-radius:20px;background:#3c096c;font-size:13px}
 
-.item{
-  background:#3c096c;
-  border-radius:16px;
-  padding:12px;
-  margin:10px 0;
+/* título */
+.title{
+  text-align:center;
+  font-size:20px;
+  font-weight:900;
+  color:#ff00ff;
+  margin-bottom:14px;
+}
+
+/* abas */
+.tabs{
   display:flex;
-  justify-content:space-between;
+  gap:6px;
+  margin-bottom:14px;
 }
-.item small{opacity:.7;font-size:11px;display:block}
+.tab{
+  flex:1;
+  padding:8px;
+  border-radius:14px;
+  border:none;
+  background:#1d002b;
+  color:#ff9bff;
+  cursor:pointer;
+  font-weight:700;
+}
+.tab.active{
+  background:linear-gradient(90deg,#ff00ff,#a100ff);
+  color:#12001f;
+}
 
-.switch{
-  width:44px;height:22px;
-  background:#240046;
-  border-radius:20px;
-  position:relative;
-}
-.switch::after{
-  content:"";
-  width:18px;height:18px;
-  background:#9d4edd;
-  border-radius:50%;
-  position:absolute;
-  top:2px;left:2px;
-  transition:.3s;
-}
-.switch.on{background:#c77dff}
-.switch.on::after{left:24px;background:#240046}
+/* conteúdo */
+.content{display:none}
+.content.active{display:block}
 
-.inject{
-  margin-top:14px;
+/* opções */
+.option{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin:10px 0;
+}
+.option input{accent-color:#ff00ff}
+
+/* slider */
+.slider{margin-top:14px}
+.slider label{font-size:13px;opacity:.8}
+.slider input{width:100%}
+
+/* progresso */
+.progress-box{
+  margin-top:18px;
+  display:none;
+}
+.progress{
+  width:100%;
+  height:10px;
+  background:#1c002a;
+  border-radius:10px;
+  overflow:hidden;
+}
+.progress-bar{
+  width:0%;
+  height:100%;
+  background:linear-gradient(90deg,#ff00ff,#a100ff);
+  transition:.15s;
+}
+
+/* botão */
+.btn{
+  margin-top:22px;
   width:100%;
   padding:14px;
   border:none;
-  border-radius:18px;
-  background:linear-gradient(90deg,#9d4edd,#7b2cff);
-  font-weight:800;
-  color:white;
+  border-radius:22px;
+  background:linear-gradient(90deg,#ff00ff,#a100ff);
+  color:#12001f;
+  font-weight:900;
+  font-size:16px;
+  cursor:pointer;
+  box-shadow:0 0 22px rgba(255,0,255,.6);
+  transition:.3s;
+}
+.btn:active{transform:scale(.95)}
+.btn.loading{
+  background:#2a003d;
+  color:#ff00ff;
+  box-shadow:none;
+}
+.btn.success{
+  background:#00ff9d;
+  color:#00331f;
+  box-shadow:0 0 22px rgba(0,255,157,.7);
 }
 
-.injecting{
-  background:#240046;
-  padding:14px;
-  border-radius:18px;
-  margin-top:14px;
-  text-align:center;
-  display:none;
-}
-.bar{
-  width:100%;
-  height:6px;
-  background:#3c096c;
-  border-radius:6px;
-  overflow:hidden;
+.status{
   margin-top:10px;
-}
-.fill{
-  height:100%;
-  width:0%;
-  background:#c77dff;
-  animation:load 2.5s forwards;
-}
-@keyframes load{to{width:100%}}
-
-#toast{
-  position:fixed;
-  bottom:30px;
-  left:50%;
-  transform:translateX(-50%);
-  background:#c77dff;
-  color:#240046;
-  padding:12px 20px;
-  border-radius:18px;
-  font-weight:800;
+  text-align:center;
+  font-size:13px;
+  opacity:.8;
   display:none;
 }
 </style>
@@ -109,54 +132,114 @@ body{
 <body>
 
 <div class="panel">
-  <div class="header">@BANNED</div>
-  <div class="tabs"><div class="tab">MENU</div></div>
+  <div class="title">BANNED 171</div>
 
-  <div class="item">
-    <div>AUXÍLIO DE MIRA<small>Sensi melhorada</small></div>
-    <div class="switch" onclick="tg(this)"></div>
+  <!-- abas -->
+  <div class="tabs">
+    <button class="tab active" onclick="openTab('aux')">Auxílio</button>
+    <button class="tab" onclick="openTab('opt')">Otimização</button>
+    <button class="tab" onclick="openTab('misc')">Misc</button>
   </div>
 
-  <div class="item">
-    <div>AUXÍLIO 90%<small>Controle avançado</small></div>
-    <div class="switch" onclick="tg(this)"></div>
+  <!-- AUXÍLIO -->
+  <div id="aux" class="content active">
+    <div class="option"><input type="checkbox" checked> Auxílio de Mira</div>
+    <div class="option"><input type="checkbox"> Head Trick</div>
+    <div class="option"><input type="checkbox"> Precisão Extra</div>
+
+    <div class="slider">
+      <label>FOV: <span id="fov">85%</span></label>
+      <input type="range" min="0" max="100" value="85"
+      oninput="fov.innerText=this.value+'%'">
+    </div>
   </div>
 
-  <div class="item">
-    <div>SENSI X2<small>Resposta mais rápida</small></div>
-    <div class="switch" onclick="tg(this)"></div>
+  <!-- OTIMIZAÇÃO -->
+  <div id="opt" class="content">
+    <div class="option"><input type="checkbox" checked> FPS Boost</div>
+    <div class="option"><input type="checkbox"> Reduzir Input Lag</div>
+    <div class="option"><input type="checkbox"> Estabilidade</div>
   </div>
 
-  <div class="item">
-    <div>SENSI PRECISA<small>Estabilidade melhorada</small></div>
-    <div class="switch" onclick="tg(this)"></div>
+  <!-- MISC -->
+  <div id="misc" class="content">
+    <div class="option"><input type="checkbox"> Anti Shake</div>
+    <div class="option"><input type="checkbox"> Mira Suave</div>
+    <div class="option"><input type="checkbox"> Ajuste Dinâmico</div>
   </div>
 
-  <button id="injBtn" class="inject" onclick="inj()">INJETAR VENENO 🍓</button>
-
-  <div id="injecting" class="injecting">
-    Aplicando ajustes…
-    <div class="bar"><div class="fill"></div></div>
+  <!-- progresso -->
+  <div class="progress-box" id="progressBox">
+    <div class="progress">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
   </div>
+
+  <div class="status" id="status">Injetando…</div>
+
+  <button class="btn" onclick="start()">INICIAR</button>
 </div>
 
-<div id="toast">Funções ativadas com sucesso 😈</div>
-
 <script>
-function tg(e){
-  e.classList.toggle("on")
+/* abas */
+function openTab(id){
+  document.querySelectorAll('.content').forEach(c=>c.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
 }
 
-function inj(){
-  injBtn.style.display="none"
-  injecting.style.display="block"
+/* som */
+function playSound(){
+  const ctx = new (window.AudioContext||window.webkitAudioContext)();
+  const osc = ctx.createOscillator();
+  osc.type="sine";
+  osc.frequency.value=600;
+  osc.connect(ctx.destination);
+  osc.start();
+  setTimeout(()=>osc.stop(),120);
+}
 
-  setTimeout(()=>{
-    injecting.style.display="none"
-    injBtn.style.display="block"
-    toast.style.display="block"
-    setTimeout(()=>toast.style.display="none",2200)
-  },2600)
+/* iniciar */
+function start(){
+  const btn=document.querySelector('.btn');
+  const bar=document.getElementById('progressBar');
+  const box=document.getElementById('progressBox');
+  const status=document.getElementById('status');
+
+  let p=0;
+  btn.classList.add('loading');
+  btn.innerText="INJETANDO...";
+  box.style.display="block";
+  status.style.display="block";
+  status.innerText="Aplicando funções…";
+  bar.style.width="0%";
+
+  playSound();
+  if(navigator.vibrate) navigator.vibrate([80,40,80]);
+
+  const i=setInterval(()=>{
+    p+=4;
+    bar.style.width=p+"%";
+    if(p>=100){
+      clearInterval(i);
+      playSound();
+      if(navigator.vibrate) navigator.vibrate([150,50,150]);
+
+      btn.classList.remove('loading');
+      btn.classList.add('success');
+      btn.innerText="ATIVADO 😈";
+      status.innerText="Tudo ativo com sucesso";
+
+      setTimeout(()=>{
+        btn.classList.remove('success');
+        btn.innerText="INICIAR";
+        box.style.display="none";
+        status.style.display="none";
+        bar.style.width="0%";
+      },2500);
+    }
+  },90);
 }
 </script>
 
