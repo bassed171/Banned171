@@ -16,7 +16,6 @@ body{
   color:white;
 }
 
-/* painel */
 .panel{
   width:330px;
   background:#0b0014;
@@ -25,7 +24,6 @@ body{
   box-shadow:0 0 40px rgba(255,0,255,.5);
 }
 
-/* título */
 .title{
   text-align:center;
   font-size:20px;
@@ -34,7 +32,6 @@ body{
   margin-bottom:14px;
 }
 
-/* abas */
 .tabs{
   display:flex;
   gap:6px;
@@ -55,11 +52,9 @@ body{
   color:#12001f;
 }
 
-/* conteúdo */
 .content{display:none}
 .content.active{display:block}
 
-/* opções */
 .option{
   display:flex;
   align-items:center;
@@ -68,12 +63,41 @@ body{
 }
 .option input{accent-color:#ff00ff}
 
-/* slider */
 .slider{margin-top:14px}
 .slider label{font-size:13px;opacity:.8}
 .slider input{width:100%}
 
-/* progresso */
+/* alvo */
+.target-box{
+  margin-top:14px;
+}
+.target-title{
+  font-size:13px;
+  opacity:.8;
+  margin-bottom:6px;
+}
+.targets{
+  display:flex;
+  gap:8px;
+}
+.targets label{
+  flex:1;
+  background:#1d002b;
+  padding:6px;
+  border-radius:12px;
+  text-align:center;
+  font-size:13px;
+  cursor:pointer;
+}
+.targets input{display:none}
+.targets input:checked + span{
+  background:linear-gradient(90deg,#ff00ff,#a100ff);
+  color:#12001f;
+  border-radius:10px;
+  padding:4px 6px;
+  display:block;
+}
+
 .progress-box{
   margin-top:18px;
   display:none;
@@ -92,7 +116,6 @@ body{
   transition:.15s;
 }
 
-/* botão */
 .btn{
   margin-top:22px;
   width:100%;
@@ -134,7 +157,6 @@ body{
 <div class="panel">
   <div class="title">BANNED 171</div>
 
-  <!-- abas -->
   <div class="tabs">
     <button class="tab active" onclick="openTab('aux')">Auxílio</button>
     <button class="tab" onclick="openTab('opt')">Otimização</button>
@@ -146,6 +168,25 @@ body{
     <div class="option"><input type="checkbox" checked> Auxílio de Mira</div>
     <div class="option"><input type="checkbox"> Head Trick</div>
     <div class="option"><input type="checkbox"> Precisão Extra</div>
+
+    <!-- ALVO -->
+    <div class="target-box">
+      <div class="target-title">Alvo Prioritário</div>
+      <div class="targets">
+        <label>
+          <input type="radio" name="alvo" checked>
+          <span>Cabeça</span>
+        </label>
+        <label>
+          <input type="radio" name="alvo">
+          <span>Pescoço</span>
+        </label>
+        <label>
+          <input type="radio" name="alvo">
+          <span>Tórax</span>
+        </label>
+      </div>
+    </div>
 
     <div class="slider">
       <label>FOV: <span id="fov">85%</span></label>
@@ -168,7 +209,6 @@ body{
     <div class="option"><input type="checkbox"> Ajuste Dinâmico</div>
   </div>
 
-  <!-- progresso -->
   <div class="progress-box" id="progressBox">
     <div class="progress">
       <div class="progress-bar" id="progressBar"></div>
@@ -181,7 +221,6 @@ body{
 </div>
 
 <script>
-/* abas */
 function openTab(id){
   document.querySelectorAll('.content').forEach(c=>c.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
@@ -189,18 +228,20 @@ function openTab(id){
   event.target.classList.add('active');
 }
 
-/* som */
-function playSound(){
-  const ctx = new (window.AudioContext||window.webkitAudioContext)();
-  const osc = ctx.createOscillator();
-  osc.type="sine";
-  osc.frequency.value=600;
-  osc.connect(ctx.destination);
+/* SOM NOVO */
+function sound(freq,time){
+  const ctx=new (window.AudioContext||window.webkitAudioContext)();
+  const osc=ctx.createOscillator();
+  const gain=ctx.createGain();
+  osc.type="triangle";
+  osc.frequency.value=freq;
+  gain.gain.value=0.15;
+  osc.connect(gain);
+  gain.connect(ctx.destination);
   osc.start();
-  setTimeout(()=>osc.stop(),120);
+  setTimeout(()=>osc.stop(),time);
 }
 
-/* iniciar */
 function start(){
   const btn=document.querySelector('.btn');
   const bar=document.getElementById('progressBar');
@@ -215,16 +256,16 @@ function start(){
   status.innerText="Aplicando funções…";
   bar.style.width="0%";
 
-  playSound();
-  if(navigator.vibrate) navigator.vibrate([80,40,80]);
+  sound(420,120);
+  if(navigator.vibrate) navigator.vibrate(60);
 
   const i=setInterval(()=>{
     p+=4;
     bar.style.width=p+"%";
     if(p>=100){
       clearInterval(i);
-      playSound();
-      if(navigator.vibrate) navigator.vibrate([150,50,150]);
+      sound(880,180);
+      if(navigator.vibrate) navigator.vibrate([120,40,120]);
 
       btn.classList.remove('loading');
       btn.classList.add('success');
